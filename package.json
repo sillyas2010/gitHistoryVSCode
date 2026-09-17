@@ -98,6 +98,10 @@
                 "title": "View File Contents"
             },
             {
+                "command": "git.commit.FileEntry.OpenFileInWorkspace",
+                "title": "Open current file from workspace"
+            },
+            {
                 "command": "git.commit.FileEntry.CompareAgainstWorkspace",
                 "title": "Compare against workspace version"
             },
@@ -242,6 +246,10 @@
                 },
                 {
                     "command": "git.commit.FileEntry.ViewFileContents",
+                    "when": "view == commitViewProvider && viewItem == file"
+                },
+                {
+                    "command": "git.commit.FileEntry.OpenFileInWorkspace",
                     "when": "view == commitViewProvider && viewItem == file"
                 },
                 {

@@ -190,6 +190,9 @@ export class ApiController {
             case 'view':
                 await this.commandManager.executeCommand('git.commit.FileEntry.ViewFileContents', fileCommitDetails);
                 break;
+            case 'open_workspace':
+                await this.commandManager.executeCommand('git.commit.FileEntry.OpenFileInWorkspace', fileCommitDetails);
+                break;
             case 'compare_workspace':
                 await this.commandManager.executeCommand(
                     'git.commit.FileEntry.CompareAgainstWorkspace',

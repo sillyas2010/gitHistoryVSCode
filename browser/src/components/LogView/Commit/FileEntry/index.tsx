@@ -1,6 +1,6 @@
 import { CommittedFile, Status } from '../../../../definitions';
 import * as React from 'react';
-import { GoEye, GoGitCompare, GoHistory } from 'react-icons/go';
+import { GoEye, GoFile, GoGitCompare, GoHistory } from 'react-icons/go';
 
 interface FileEntryProps {
     committedFile: CommittedFile;
@@ -89,6 +89,18 @@ export class FileEntry extends React.Component<FileEntryProps> {
                     </span>
                 </div>
                 <div className="file-action">
+                    <span
+                        role="button"
+                        className="btnx hint--left hint--rounded hint--bounce"
+                        aria-label="Open current file from workspace"
+                    >
+                        <a
+                            role="button"
+                            onClick={() => this.props.onAction(this.props.committedFile, 'open_workspace')}
+                        >
+                            <GoFile></GoFile> Open
+                        </a>
+                    </span>
                     <span
                         role="button"
                         className="btnx hint--left hint--rounded hint--bounce"
