@@ -27,7 +27,14 @@ async function main() {
         await runTests({
             extensionDevelopmentPath,
             extensionTestsPath,
-            launchArgs: [path.join(tempRepoFolder, 'test_gitHistory'), '--disable-extensions'],
+            launchArgs: [
+                path.join(tempRepoFolder, 'test_gitHistory'),
+                '--disable-extensions',
+                // The automated session never answers the Workspace Trust prompt,
+                // which excludes the built-in `vscode.git` extension (it does not
+                // support untrusted workspaces) from the extension host.
+                '--disable-workspace-trust',
+            ],
             extensionTestsEnv: { IS_TEST_MODE: '1' },
         });
 

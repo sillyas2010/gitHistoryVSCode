@@ -8,22 +8,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
+    - uses: actions/setup-node@v4
       with:
-        node-version: '16.14.x'
-    - run: npm install
+        node-version: '24.x'
+    - run: npm install --force
     - run: npm run vscode:prepublish
     - run: npm run test
   Test_Extension:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
+    - uses: actions/setup-node@v4
       with:
-        node-version: '12.8.x'
-    - run: npm install
+        node-version: '24.x'
+    - run: npm install --force
     - name: Compile
-      run: tsc --skipLibCheck -p ./
+      run: npx tsc --skipLibCheck -p ./
     - name: Start xvfb
       run: /usr/bin/Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
     - name: Run extension tests

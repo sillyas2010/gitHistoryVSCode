@@ -16,6 +16,7 @@ describe('Branches', () => {
         {
             gitRoot: '',
             name: 'addBranchTests',
+            type: 0,
             remote: 'https://github.com/DonJayamanne/test_gitHistory.git',
             remoteType: 2,
             current: false,
@@ -23,6 +24,7 @@ describe('Branches', () => {
         {
             gitRoot: '',
             name: 'part1FixStartup',
+            type: 0,
             remote: 'https://github.com/DonJayamanne/test_gitHistory.git',
             remoteType: 2,
             current: false,
@@ -30,6 +32,7 @@ describe('Branches', () => {
         {
             gitRoot: '',
             name: 'master',
+            type: 0,
             remote: 'https://github.com/DonJayamanne/test_gitHistory.git',
             remoteType: 2,
             current: true,
@@ -37,6 +40,7 @@ describe('Branches', () => {
         {
             gitRoot: '',
             name: 'addTests',
+            type: 0,
             remote: 'https://github.com/DonJayamanne/test_gitHistory.git',
             remoteType: 2,
             current: false,
@@ -44,6 +48,7 @@ describe('Branches', () => {
         {
             gitRoot: '',
             name: 'jest',
+            type: 0,
             remote: 'https://github.com/DonJayamanne/test_gitHistory.git',
             remoteType: 2,
             current: false,
@@ -51,6 +56,7 @@ describe('Branches', () => {
         {
             gitRoot: '',
             name: 'replace-webserver-with-postmessage',
+            type: 0,
             remote: 'https://github.com/DonJayamanne/test_gitHistory.git',
             remoteType: 2,
             current: false,
@@ -58,6 +64,7 @@ describe('Branches', () => {
         {
             gitRoot: '',
             name: 'localBranch3',
+            type: 0,
             remote: '',
             remoteType: undefined,
             current: false,
@@ -65,6 +72,7 @@ describe('Branches', () => {
         {
             gitRoot: '',
             name: 'localBranch2',
+            type: 0,
             remote: '',
             remoteType: undefined,
             current: false,
@@ -72,6 +80,7 @@ describe('Branches', () => {
         {
             gitRoot: '',
             name: 'localBranch1',
+            type: 0,
             remote: '',
             remoteType: undefined,
             current: false,
@@ -79,6 +88,7 @@ describe('Branches', () => {
         {
             gitRoot: '',
             name: 'curvyGraphs',
+            type: 0,
             remote: 'https://github.com/DonJayamanne/test_gitHistory.git',
             remoteType: 2,
             current: false,
@@ -86,6 +96,7 @@ describe('Branches', () => {
         {
             gitRoot: '',
             name: 'WIP',
+            type: 0,
             remote: 'https://github.com/DonJayamanne/test_gitHistory.git',
             remoteType: 2,
             current: false,
@@ -137,12 +148,16 @@ describe('Branches', () => {
         expect(branches.length).toBeGreaterThanOrEqual(expectedBranches.length);
         // We might have a few extra branches created during tests, so exclude those.
         const branchesToMatch = branches.filter(branch => expectedBranches.find(item => item.name === branch.name));
+        const sortByName = (a: { name: string }, b: { name: string }) =>
+            a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
         assert.deepEqual(
-            branchesToMatch,
-            expectedBranches.map(item => ({
-                ...item,
-                gitRoot: localPath,
-            })),
+            branchesToMatch.sort(sortByName),
+            expectedBranches
+                .map(item => ({
+                    ...item,
+                    gitRoot: localPath,
+                }))
+                .sort(sortByName),
         );
     }, 1_000);
     test('Return current branch', async () => {

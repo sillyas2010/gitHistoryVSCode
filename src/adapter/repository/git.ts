@@ -84,13 +84,15 @@ export class Git implements IGitService {
                     remoteUrl = this.repo.state.remotes.find(x => x.name === remoteName)?.fetchUrl;
                 }
 
-                const originType = await this.remotesService.getOriginType(remoteUrl);
+                // Do not fall back to `getOriginType(undefined)`, as that returns the origin
+                // of the current branch, which is unrelated to this branch.
+                const originType = remoteUrl ? await this.remotesService.getOriginType(remoteUrl) : undefined;
 
                 return {
                     gitRoot: gitRoot,
                     name: r.name,
                     type: r.type.valueOf(),
-                    remote: remoteUrl,
+                    remote: remoteUrl || '',
                     remoteType: originType,
                     current: this.getCurrentBranch() === r.name,
                 } as Branch;

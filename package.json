@@ -410,12 +410,12 @@
         }
     },
     "scripts": {
-        "vscode:prepublish": "npm run lint && tsc --skipLibCheck -p ./ && webpack -p --progress",
+        "vscode:prepublish": "npm run lint && tsc --skipLibCheck -p ./ && NODE_OPTIONS=--openssl-legacy-provider webpack -p --progress",
         "test-compile": "tsc --skipLibCheck --watch -p ./",
         "test": "jest",
         "test-extension": "node ./dist/test/runTest.js",
-        "webpack": "webpack -p --progress --colors",
-        "webpack-dev": "webpack --progress --colors --watch",
+        "webpack": "NODE_OPTIONS=--openssl-legacy-provider webpack -p --progress --colors",
+        "webpack-dev": "NODE_OPTIONS=--openssl-legacy-provider webpack --progress --colors --watch",
         "lint": "eslint 'src/**/*.ts' && eslint 'browser/src/**/*.ts*'",
         "fix": "eslint --fix \"src/**/*.ts\" && eslint --fix \"browser/src/**/*.ts*\"",
         "precommit": "lint-staged",
