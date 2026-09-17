@@ -34,6 +34,18 @@ export class GitFileHistoryCommandHandler implements IGitFileHistoryCommandHandl
         await this.commandManager.executeCommand('git.openFileInViewer', tmpFile);
     }
 
+    @command('git.commit.FileEntry.OpenFileInWorkspace', IGitFileHistoryCommandHandler)
+    public async openFileInWorkspace(nodeOrFileCommit: FileNode | FileCommitDetails): Promise<void> {
+        const fileCommit = nodeOrFileCommit instanceof FileCommitDetails ? nodeOrFileCommit : nodeOrFileCommit.data!;
+        if (!(await this.fileSystem.fileExistsAsync(fileCommit.committedFile.uri.path))) {
+            return this.applicationShell
+                .showErrorMessage('Corresponding workspace file does not exist')
+                .then(() => void 0);
+        }
+
+        await this.commandManager.executeCommand('git.openFileInViewer', Uri.file(fileCommit.committedFile.uri.path));
+    }
+
     @command('git.commit.FileEntry.CompareAgainstWorkspace', IGitFileHistoryCommandHandler)
     public async compareFileWithWorkspace(nodeOrFileCommit: FileNode | FileCommitDetails): Promise<void> {
         const fileCommit = nodeOrFileCommit instanceof FileCommitDetails ? nodeOrFileCommit : nodeOrFileCommit.data!;
