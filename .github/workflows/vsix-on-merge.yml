@@ -1,0 +1,32 @@
+name: Build VSIX and Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '24.x'
+    - run: npm install --force
+    - run: npm run vscode:prepublish
+    - run: npm install -g @vscode/vsce
+    - name: Read package.json version
+      uses: tyankatsu0105/read-package-version-actions@v1
+      id: package-version
+    - name: Package VSIX
+      run: vsce package
+    - name: Create release and upload VSIX
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        VERSION: ${{ steps.package-version.outputs.version }}
+        TAG: v${{ steps.package-version.outputs.version }}-${{ github.run_number }}
+      run: gh release create "$TAG" --title "$TAG" --generate-notes "githistory-$VERSION.vsix"
